@@ -1,0 +1,21 @@
+---
+
+- name: ocp-workload
+  type: workload
+  prev_stages: [ocp-upgrade, ocp]
+  ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
+  ansible_cfg: /var/lib/dci-pipeline/config/pipelines/ansible.cfg
+  ansible_inventory: /var/lib/dci-pipeline/config/inventories/@QUEUE/@RESOURCE-workload.yml
+  dci_credentials: /etc/dci-openshift-app-agent/dci_credentials.yml
+  ansible_extravars:
+    dci_cache_dir: /var/lib/dci-pipeline/dci-cache-dir
+    dci_config_dir: /var/lib/dci-pipeline/config/ocp-workload
+    dci_gits_to_components:
+      - /var/lib/dci-pipeline/config
+    dci_local_log_dir: /var/lib/dci-pipeline/upload-errors
+    dci_tags: []
+  use_previous_topic: true
+  inputs:
+    kubeconfig: kubeconfig_path
+
+...
