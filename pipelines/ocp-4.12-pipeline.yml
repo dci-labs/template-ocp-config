@@ -1,18 +1,18 @@
 ---
 
 - name: ocp-install
-  type: ocp
+  stage: ocp
   ansible_playbook: /usr/share/dci-openshift-agent/dci-openshift-agent.yml
-  ansible_cfg: /var/lib/dci-pipeline/config/pipelines/ansible.cfg
-  ansible_inventory: /var/lib/dci-pipeline/config/inventories/@QUEUE/@RESOURCE
-  dci_credentials: /etc/dci-openshift-agent/dci_credentials.yml
+  ansible_cfg: ~/config/pipelines/ansible.cfg
+  ansible_inventory: ~/config/inventories/@QUEUE/@RESOURCE
+  dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
   ansible_extravars:
-    dci_cache_dir: /var/lib/dci-pipeline/dci-cache-dir
+    dci_cache_dir: ~/dci-cache-dir
     dci_config_dirs:
-      - /var/lib/dci-pipeline/config/ocp-install
+      - ~/config/ocp-install
     dci_gits_to_components:
-      - /var/lib/dci-pipeline/config
-    dci_local_log_dir: /var/lib/dci-pipeline/upload-errors
+      - ~/config
+    dci_local_log_dir: ~/upload-errors
     dci_tags: []
   topic: OCP-4.12
   components:
