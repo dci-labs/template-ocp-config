@@ -63,8 +63,8 @@ The inventories are expecting `dci-queue` to be used with the
 following settings:
 
 ```ShellSession
-$ dci-queue add pool pool
-$ dci-queue add resource pool cluster1
+$ dci-queue add-pool pool
+$ dci-queue add-resource pool cluster1
 ```
 
 If you don't want to use `dci-queue`, just edit the the pipeline files
