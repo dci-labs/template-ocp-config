@@ -46,7 +46,7 @@ $ git push -u origin main
 Then create the required directories and files for DCI to work:
 
 ```ShellSession
-$ cd
+$ cd ~
 $ mkdir -p dci-cache-dir upload-errors .config/dci-pipeline
 $ cat > .config/dci-pipeline/config <<EOF
 PIPELINES_DIR=$HOME/<your company>-<lab>-config/pipelines
