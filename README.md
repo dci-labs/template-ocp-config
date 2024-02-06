@@ -53,7 +53,7 @@ $ dci-pipeline-schedule ocp-4.12 workload
 For only the workload:
 
 ```ShellSession
-$ dci-pipeline-schedule workload
+$ KUBECONFIG=$KUBECONFIG dci-pipeline-schedule workload
 ```
 
 ## Testing a PR
@@ -67,5 +67,5 @@ $ dci-pipeline-check https://github.com/dci-labs/<your company>-<lab>-config/pul
 Or only with the workload:
 
 ```ShellSession
-$ dci-pipeline-check https://github.com/dci-labs/<your company>-<lab>-config/pull/1 workload
+$ dci-pipeline-check https://github.com/dci-labs/<your company>-<lab>-config/pull/1 $KUBECONFIG workload
 ```
