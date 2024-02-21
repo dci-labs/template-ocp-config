@@ -22,6 +22,7 @@ $ git clone git@github.com:dci-labs/<your company>-<lab>-config.git
 $ mkdir -p dci-cache-dir upload-errors .config/dci-pipeline
 $ cat > .config/dci-pipeline/config <<EOF
 PIPELINES_DIR=$HOME/<your company>-<lab>-config/pipelines
+DEFAULT_QUEUE=pool
 EOF
 ```
 
@@ -35,8 +36,8 @@ The inventories are expecting `dci-queue` to be used with the
 following settings:
 
 ```ShellSession
-$ dci-queue add pool pool
-$ dci-queue add resource pool cluster1
+$ dci-queue add-pool pool
+$ dci-queue add-resource pool cluster1
 ```
 
 If you don't want to use `dci-queue`, just edit the the pipeline files
