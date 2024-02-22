@@ -14,10 +14,10 @@ in the files (`<your company>-<lab>-config`).
 
 Add the credentials for your remoteci in `~/.config/dci-pipeline/dci_credentials.yml`.
 
-Then create the required directories and files for DCI to work:
+Then, create the required directories and files for DCI to work:
 
 ```ShellSession
-$ cd
+$ cd ~
 $ git clone git@github.com:dci-labs/<your company>-<lab>-config.git
 $ mkdir -p dci-cache-dir upload-errors .config/dci-pipeline
 $ cat > .config/dci-pipeline/config <<EOF
@@ -59,6 +59,13 @@ $ KUBECONFIG=$KUBECONFIG dci-pipeline-schedule workload
 
 ## Testing a PR
 
+First, setup Github credentials in `~/.config/dci-pipeline/config`:
+
+```
+GITHUB_TOKEN=<your_github_token>
+GITHUB_LOGIN=<your_github_user>
+```
+
 For testing a PR with the full pipeline:
 
 ```ShellSession
@@ -69,4 +76,56 @@ Or only with the workload:
 
 ```ShellSession
 $ dci-pipeline-check https://github.com/dci-labs/<your company>-<lab>-config/pull/1 $KUBECONFIG workload
+```
+
+## How to debug and fix issues
+
+1. Locate the logs of the job in `~/.dci-queue/log/pool/`. Typically, you'll need the latest created file:
+
+```ShellSession
+cat "$(ls -1t ~/.dci-queue/log/pool/ | head -n 1)"
+```
+
+Check the ansible-playbook invocation, verify and fix possible permission errors, and make a note of the job URL.
+
+2. If encountering an unusual situation with dci-queue, consider removing and recreating the pool from scratch:
+
+```ShellSession
+$ dci-queue remove-pool pool
+$ dci-queue add-pool pool
+$ dci-queue add-resource pool cluster1
+```
+
+3. If making dci-queue work immediately is challenging, consider running a job first with dci-pipeline.
+
+To do this, modify the pipeline files to replace dynamic paths. The following command will change `@QUEUE` to `pool` and `@RESOURCE` to `cluster1`:
+
+```ShellSession
+$ export CONFIG_REPO_PATH="$HOME/<your company>-<lab>-config"
+$ cd $CONFIG_REPO_PATH
+$ find pipelines -type f -exec sed -i 's/@QUEUE/pool/g; s/@RESOURCE/cluster1/g' {} +
+```
+
+Start a DCI job with dci-pipeline:
+
+```ShellSession
+dci-pipeline \
+workload:ansible_extravars=kubeconfig_path:$KUBECONFIG \
+workload:ansible_inventory=$CONFIG_REPO_PATH/inventories/pool/cluster1 \
+workload:ansible_cfg=$CONFIG_REPO_PATH/pipelines/ansible.cfg \
+$CONFIG_REPO_PATH/pipelines/workload-pipeline.yml
+```
+
+Debug by checking the logs in `~/.dci-queue/log/pool/`. Once the `dci-pipeline` invocation is working, revert to using dynamic paths by replacing `pool` with `@QUEUE` and `cluster1` with `@RESOURCE`:
+
+```ShellSession
+$ export CONFIG_REPO_PATH="$HOME/<your company>-<lab>-config"
+$ cd $CONFIG_REPO_PATH
+$ find pipelines -type f -exec sed -i 's/pool/@QUEUE/g; s/cluster1/@RESOURCE/g' {} +
+```
+
+and return to using `dci-pipeline-schedule`:
+
+```ShellSession
+$ KUBECONFIG=$KUBECONFIG dci-pipeline-schedule workload
 ```
