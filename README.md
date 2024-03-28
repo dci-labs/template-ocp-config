@@ -70,3 +70,16 @@ Or only with the workload:
 ```ShellSession
 $ dci-pipeline-check https://github.com/dci-labs/<your company>-<lab>-config/pull/1 $KUBECONFIG workload
 ```
+
+# Certification with DCI
+
+In the [pipelines/certification-pipeline.yml](https://github.com/dci-labs/template-ocp-config/blob/main/pipelines/certification-pipeline.yml) file, you will find a stub configuration to certify containers, Helm charts, operators, and create CNF projects. Customize it by providing your credentials and certification items, and then run it using the following command:
+
+```ShellSession
+$ KUBECONFIG=$KUBECONFIG dci-pipeline-schedule certification
+```
+
+Here is some documentation can could be helpful:
+- [DCI UI (Use RH SSO to login)](https://www.distributed-ci.io/jobs?limit=20&offset=0&sort=-created_at&where=state:active)
+- [DCI blog: Certification tests for OpenShift containers and operators: how to run with DCI](https://blog.distributed-ci.io/preflight-integration-in-dci.html)
+- Detailed documentation for some certification-related roles: [Preflight](https://github.com/redhatci/ansible-collection-redhatci-ocp/tree/main/roles/preflight), [Chart Verifier](https://github.com/redhatci/ansible-collection-redhatci-ocp/tree/main/roles/chart_verifier), [CNF](https://github.com/redhatci/ansible-collection-redhatci-ocp/tree/main/roles/openshift_cnf), [create_certification_projects](https://github.com/redhatci/ansible-collection-redhatci-ocp/tree/main/roles/create_certification_project).
