@@ -8,7 +8,7 @@
   dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
   ansible_extravars:
     dci_cache_dir: ~/dci-cache-dir
-    dci_config_dirs: 
+    dci_config_dirs:
       - ~/config/ocp-install
     dci_gits_to_components:
       - ~/config
