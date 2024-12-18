@@ -14,7 +14,7 @@
       - ~/config
     dci_local_log_dir: ~/upload-errors
     dci_tags: []
-  topic: OCP-4.12
+  topic: OCP-4.17
   components:
     - ocp
   outputs:

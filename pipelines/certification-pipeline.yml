@@ -57,7 +57,7 @@
 
     # create cnf cert project
     cnf_to_certify:
-      - cnf_name: "my-test23.5 OCP4.12.49"
+      - cnf_name: "my-test23.5 OCP4.17.9"
         pyxis_product_lists:
           - "YYYYYYYYYYYYYYYYYYYYYYYY"
 
