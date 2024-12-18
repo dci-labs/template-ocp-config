@@ -29,7 +29,7 @@ EOF
 You can now customize the hooks, pipelines and inventories files for
 your own needs following [the DCI documentation](https://docs.distributed-ci.io/).
 
-By default 2 job descriptions (`ocp-4.12` and `workload`) and their
+By default 2 job descriptions (`ocp-4.17` and `workload`) and their
 associated hooks are present in the template.
 
 The inventories are expecting `dci-queue` to be used with the
@@ -48,7 +48,7 @@ to not use dynamic paths.
 For the full pipeline (OCP + workload):
 
 ```ShellSession
-$ dci-pipeline-schedule ocp-4.12 workload
+$ dci-pipeline-schedule ocp-4.17 workload
 ```
 
 For only the workload:
@@ -62,7 +62,7 @@ $ KUBECONFIG=$KUBECONFIG dci-pipeline-schedule workload
 For testing a PR with the full pipeline:
 
 ```ShellSession
-$ dci-pipeline-check https://github.com/dci-labs/<your company>-<lab>-config/pull/1 ocp-4.12 workload
+$ dci-pipeline-check https://github.com/dci-labs/<your company>-<lab>-config/pull/1 ocp-4.17 workload
 ```
 
 Or only with the workload:
