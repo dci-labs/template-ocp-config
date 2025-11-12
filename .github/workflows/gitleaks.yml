@@ -1,0 +1,23 @@
+name: gitleaks
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  scan:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install gitleaks
+        run: |
+          VERS=8.28.0
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v${VERS}/gitleaks_${VERS}_linux_x64.tar.gz \
+          | tar -xz gitleaks
+          sudo mv gitleaks /usr/local/bin/
+
+      - name: Run gitleaks
+        run: |
+          gitleaks detect --source . --log-opts="origin/${{ github.event.pull_request.base.ref }}..HEAD" --redact --exit-code 1
