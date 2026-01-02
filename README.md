@@ -83,3 +83,16 @@ Here is some documentation can could be helpful:
 - [DCI UI (Use RH SSO to login)](https://www.distributed-ci.io/jobs?limit=20&offset=0&sort=-created_at&where=state:active)
 - [DCI blog: Certification tests for OpenShift containers and operators: how to run with DCI](https://blog.distributed-ci.io/preflight-integration-in-dci.html)
 - Detailed documentation for some certification-related roles: [Preflight](https://github.com/redhatci/ansible-collection-redhatci-ocp/tree/main/roles/preflight), [Chart Verifier](https://github.com/redhatci/ansible-collection-redhatci-ocp/tree/main/roles/chart_verifier), [CNF](https://github.com/redhatci/ansible-collection-redhatci-ocp/tree/main/roles/openshift_cnf), [create_certification_projects](https://github.com/redhatci/ansible-collection-redhatci-ocp/tree/main/roles/create_certification_project).
+
+# Install git hooks
+
+Git hooks are provided to follow secure best practices to avoid leaking secrets on changes.
+To install them, run the following command from the repository:
+
+```ShellSession
+$ utils/install-hooks.sh
+```
+
+The pre-commit hook uses [gitleaks](https://github.com/zricethezav/gitleaks) to scan for secrets before committing.
+Make sure to have it installed on your system. Installation instructions can be found
+in the [gitleaks documentation](https://github.com/zricethezav/gitleaks#installation).
