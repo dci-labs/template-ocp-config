@@ -13,7 +13,7 @@ jobs:
 
       - name: Install gitleaks
         run: |
-          VERS=8.28.0
+          VERS=8.30.0
           curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v${VERS}/gitleaks_${VERS}_linux_x64.tar.gz \
           | tar -xz gitleaks
           sudo mv gitleaks /usr/local/bin/
