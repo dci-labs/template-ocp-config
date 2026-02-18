@@ -1,3 +1,5 @@
+---
+
 name: gitleaks
 on:
   pull_request:
@@ -9,7 +11,45 @@ jobs:
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
-          fetch-depth: 0
+          fetch-depth: 0        # fetch the full history
+
+      - name: Check commits for Gitleaks signatures
+        run: |
+          # Check commits except merge commits
+          FAILED=0
+          for COMMIT in $(git rev-list origin/${{ github.event.pull_request.base.ref }}..HEAD); do
+            # Skip merge commits (e.g. the synthetic merge commit GitHub creates for PRs)
+            if git rev-parse --verify "$COMMIT^2" >/dev/null 2>&1; then
+              echo "Skipping merge commit $(git rev-parse --short "$COMMIT")"
+              continue
+            fi
+            MSG=$(git log --format=%B -n 1 "$COMMIT")
+            SIGN=$(echo "$MSG" | grep -oP '^Gitleaks-Sign: \K.*' || true)
+            HASH=$(echo "$MSG" | grep -oP '^Gitleaks-Hash: \K.*' || true)
+            SHORT=$(git rev-parse --short "$COMMIT")
+
+            if [[ -z "$SIGN" || -z "$HASH" ]]; then
+              echo "::error::Commit $SHORT is missing Gitleaks-Sign and/or Gitleaks-Hash trailers."
+              FAILED=1
+              continue
+            fi
+
+            EXPECTED_HASH=$(echo -n "$SIGN" | sha1sum | awk '{print $1}')
+            if [[ "$HASH" != "$EXPECTED_HASH" ]]; then
+              echo "::error::Commit $SHORT has an invalid Gitleaks-Hash (expected $EXPECTED_HASH, got $HASH)."
+              FAILED=1
+              continue
+            fi
+
+            echo "Commit $SHORT: Gitleaks signature verified."
+          done
+
+          if [[ $FAILED -ne 0 ]]; then
+            echo ""
+            echo "One or more commits are missing valid Gitleaks signatures."
+            echo "Please install the git hooks using dci-install-git-hooks and re-commit."
+            exit 1
+          fi
 
       - name: Install gitleaks
         run: |
@@ -21,3 +61,5 @@ jobs:
       - name: Run gitleaks
         run: |
           gitleaks detect --source . --log-opts="origin/${{ github.event.pull_request.base.ref }}..HEAD" --redact --exit-code 1
+
+...
