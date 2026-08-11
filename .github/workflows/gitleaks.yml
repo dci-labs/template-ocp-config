@@ -2,6 +2,8 @@ name: gitleaks
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+permissions:
+  contents: read
 jobs:
   verify-signature:
     name: Verify Gitleaks Signature
