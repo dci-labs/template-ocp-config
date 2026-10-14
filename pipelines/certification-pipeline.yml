@@ -2,10 +2,10 @@
 
 - name: certification
   stage: workload
-  prev_stages: [ocp-upgrade, ocp]
+  prev_stages: [upgrade, install]
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
   ansible_cfg: ~/config/pipelines/ansible.cfg
-  ansible_inventory: ~/config/inventories/@QUEUE/@RESOURCE-workload.yml
+  ansible_inventory: "@QUEUE/@RESOURCE-installed"
   dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
   ansible_extravars:
     dci_cache_dir: ~/dci-cache-dir
@@ -79,6 +79,7 @@
       distribution_method: "undistributed"
       distribution_instructions: "Instructions how to get this helm-chart"
 
+  topic: OCP-4.22
   use_previous_topic: true
   inputs:
     kubeconfig: kubeconfig_path
