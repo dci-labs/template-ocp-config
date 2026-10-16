@@ -29,7 +29,7 @@ EOF
 You can now customize the hooks, pipelines and inventories files for
 your own needs following [the DCI documentation](https://docs.distributed-ci.io/).
 
-By default 2 job descriptions (`ocp-4.17` and `workload`) and their
+By default 2 job descriptions (`ocp-4.22` and `workload`) and their
 associated hooks are present in the template.
 
 The inventories are expecting `dci-queue` to be used with the
@@ -48,7 +48,7 @@ to not use dynamic paths.
 For the full pipeline (OCP + workload):
 
 ```ShellSession
-$ dci-pipeline-schedule ocp-4.17 workload
+$ dci-pipeline-schedule ocp-4.22 workload
 ```
 
 For only the workload:
@@ -69,7 +69,7 @@ GITHUB_LOGIN=<your_github_user>
 For testing a PR with the full pipeline:
 
 ```ShellSession
-$ dci-pipeline-check https://github.com/dci-labs/<your company>-<lab>-config/pull/1 ocp-4.17 workload
+$ dci-pipeline-check https://github.com/dci-labs/<your company>-<lab>-config/pull/1 ocp-4.22 workload
 ```
 
 Or only with the workload:
@@ -93,16 +93,11 @@ Here is some documentation can could be helpful:
 
 # Install git hooks
 
-Git hooks are provided to follow secure best practices to avoid leaking secrets on changes.
-To install them, run the following command from the repository:
-
-```ShellSession
-$ utils/install-hooks.sh
-```
-
 The pre-commit hook uses [gitleaks](https://github.com/zricethezav/gitleaks) to scan for secrets before committing.
 Make sure to have it installed on your system. Installation instructions can be found
 in the [gitleaks documentation](https://github.com/zricethezav/gitleaks#installation).
+
+Activate git hooks by using [dci-install-git-hooks](https://github.com/distributedci/dci-pipeline/blob/main/tools/dci-install-git-hooks) from your local copy of the [dci-pipeline](https://github.com/distributedci/dci-pipeline) project.
 
 ## How to debug and fix issues
 

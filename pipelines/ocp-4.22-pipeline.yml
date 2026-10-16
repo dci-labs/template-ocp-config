@@ -1,10 +1,10 @@
 ---
 
-- name: ocp-install
-  stage: ocp
+- name: ocp-4.22
+  stage: install
   ansible_playbook: /usr/share/dci-openshift-agent/dci-openshift-agent.yml
   ansible_cfg: ~/config/pipelines/ansible.cfg
-  ansible_inventory: ~/config/inventories/@QUEUE/@RESOURCE
+  ansible_inventory: "@QUEUE/@RESOURCE"
   dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
   ansible_extravars:
     dci_cache_dir: ~/dci-cache-dir
@@ -14,7 +14,7 @@
       - ~/config
     dci_local_log_dir: ~/upload-errors
     dci_tags: []
-  topic: OCP-4.17
+  topic: OCP-4.22
   components:
     - ocp
   outputs:
